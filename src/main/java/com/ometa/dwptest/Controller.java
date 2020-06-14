@@ -9,6 +9,8 @@ import java.util.List;
 @RestController
 public class Controller {
 
+    final static String LONDON_USERS_PATH = "londonusers";
+
     @Resource
     private final Service service;
 
@@ -16,7 +18,7 @@ public class Controller {
         this.service = service;
     }
 
-    @GetMapping("/londonusers")
+    @GetMapping("/" + LONDON_USERS_PATH)
     public List<User> getLondonUsers() {
         return service.getLondonUsers();
     }
