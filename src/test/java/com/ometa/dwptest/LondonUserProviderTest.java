@@ -26,26 +26,13 @@ class LondonUserProviderTest {
     private double nearbyLatitude, nearbyLongitude;
     private double distantLatitude, distantLongitude;
     private String londonUserId, nearbyUserId, distantUserId;
-    private User londonUserPartial, londonUserFull, nearbyUserPartial, nearbyUserFull, distantUserPartial, distantUserFull;
+    private User londonUserPartial, londonUserFull, nearbyUserPartial, nearbyUserFull, distantUserPartial;
     private LondonUserProvider underTest;
 
     @BeforeEach
     public void setup(){
-        londonLatitude = anyDouble();
-        londonLongitude = anyDouble();
-        nearbyLatitude = anyDouble();
-        nearbyLongitude = anyDouble();
-        distantLatitude = anyDouble();
-        distantLongitude = anyDouble();
-        londonUserId = anyString();
-        nearbyUserId = anyString();
-        distantUserId = anyString();
-        londonUserPartial = User.builder().id(londonUserId).build();
-        londonUserFull = User.builder().build();
-        nearbyUserPartial = User.builder().id(nearbyUserId).latitude(nearbyLatitude).longitude(nearbyLongitude).build();
-        nearbyUserFull = User.builder().build();
-        distantUserPartial = User.builder().id(distantUserId).latitude(distantLatitude).longitude(distantLongitude).build();
-        distantUserFull = User.builder().build();
+        givenRandomCoordinates();
+        givenTestUsers();
         when(userSource.getAllUsers()).thenReturn(newArrayList(londonUserPartial, nearbyUserPartial, distantUserPartial));
         when(userSource.getExplicitLondonUsers()).thenReturn(newArrayList(londonUserPartial));
         when(userSource.getUser(londonUserId)).thenReturn(londonUserFull);
@@ -77,7 +64,25 @@ class LondonUserProviderTest {
         //then
         assertThat(allLondonUsers.size(), is(1));
         assertThat(allLondonUsers, hasItems(londonUserFull));
-
     }
 
+    private void givenRandomCoordinates() {
+        londonLatitude = anyDouble();
+        londonLongitude = anyDouble();
+        nearbyLatitude = anyDouble();
+        nearbyLongitude = anyDouble();
+        distantLatitude = anyDouble();
+        distantLongitude = anyDouble();
+    }
+
+    private void givenTestUsers() {
+        londonUserId = anyString();
+        nearbyUserId = anyString();
+        distantUserId = anyString();
+        londonUserPartial = User.builder().id(londonUserId).build();
+        londonUserFull = User.builder().build();
+        nearbyUserPartial = User.builder().id(nearbyUserId).latitude(nearbyLatitude).longitude(nearbyLongitude).build();
+        nearbyUserFull = User.builder().build();
+        distantUserPartial = User.builder().id(distantUserId).latitude(distantLatitude).longitude(distantLongitude).build();
+    }
 }
